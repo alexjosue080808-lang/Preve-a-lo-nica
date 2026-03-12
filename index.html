@@ -9,28 +9,35 @@
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
-background:linear-gradient(135deg,#ff6a3d,#ff9966);
 text-align:center;
-color:white;
+color:#333;
+
+/* Fondo patrón */
+
+background:
+radial-gradient(circle,#ffffff 1px,transparent 1px),
+linear-gradient(135deg,#ff6a3d,#ff9966);
+
+background-size:40px 40px,cover;
 }
 
 .container{
-max-width:600px;
+max-width:700px;
 margin:auto;
 padding:30px;
 }
 
 .card{
 background:white;
-color:#333;
 padding:30px;
-border-radius:25px;
+border-radius:20px;
 box-shadow:0 10px 30px rgba(0,0,0,0.2);
-margin-top:20px;
+margin-top:25px;
 }
 
 h1{
 margin-top:0;
+color:#ff5e3a;
 }
 
 button{
@@ -49,24 +56,51 @@ transform:scale(1.05);
 }
 
 .bebidas img{
-width:200px;
+width:180px;
 border-radius:15px;
 margin:10px;
 }
 
+/* decoraciones */
+
 .decor{
 position:fixed;
-font-size:40px;
+font-size:35px;
 opacity:0.15;
-animation:flotar 8s infinite ease-in-out;
+animation:float 8s infinite ease-in-out;
 }
 
-@keyframes flotar{
+@keyframes float{
 
 0%{transform:translateY(0)}
 50%{transform:translateY(-20px)}
 100%{transform:translateY(0)}
 
+}
+
+/* juego */
+
+.hidden{
+display:none;
+}
+
+.progress{
+height:10px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+margin-top:15px;
+}
+
+.bar{
+height:100%;
+background:#4CAF50;
+width:0%;
+}
+
+.score{
+margin-top:10px;
+font-weight:bold;
 }
 
 </style>
@@ -101,13 +135,14 @@ y prevenir la adicción al alcohol.
 
 </div>
 
+
 <div class="card">
 
 <h2>Di NO al alcohol</h2>
 
 <p>
 El consumo excesivo de alcohol puede afectar tu salud,
-tus decisiones y tu futuro.
+tu familia y tu futuro.
 </p>
 
 <p>
@@ -116,6 +151,7 @@ refrescante para disfrutar sin alcohol.
 </p>
 
 </div>
+
 
 <div class="card">
 
@@ -127,7 +163,159 @@ refrescante para disfrutar sin alcohol.
 
 </div>
 
+
+<div class="card">
+
+<h2>🎮 Juego interactivo</h2>
+
+<div id="inicioJuego">
+
+<p>¿Listo para tomar decisiones saludables?</p>
+
+<button onclick="startGame()">Comenzar juego</button>
+
 </div>
+
+
+<div id="game" class="hidden">
+
+<h3 id="pregunta"></h3>
+
+<div id="opciones"></div>
+
+<div class="progress">
+<div class="bar" id="barra"></div>
+</div>
+
+<div class="score">
+Puntos saludables: <span id="score">0</span>
+</div>
+
+</div>
+
+
+<div id="finalJuego" class="hidden">
+
+<h3>Resultado</h3>
+
+<p id="mensajeFinal"></p>
+
+<button onclick="reiniciar()">Jugar otra vez</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let preguntas=[
+
+{
+texto:"Estás en una fiesta y te ofrecen alcohol",
+opciones:[
+{text:"Aceptar bebida",valor:-1},
+{text:"Elegir PREVE A LO NICA",valor:1}
+]
+},
+
+{
+texto:"Tus amigos te presionan para beber más",
+opciones:[
+{text:"Ceder a la presión",valor:-1},
+{text:"Mantener tu decisión",valor:1}
+]
+},
+
+{
+texto:"Debes conducir después de la fiesta",
+opciones:[
+{text:"Conducir igual",valor:-1},
+{text:"Buscar transporte seguro",valor:1}
+]
+}
+
+]
+
+let paso=0
+let puntos=0
+
+function startGame(){
+
+document.getElementById("inicioJuego").classList.add("hidden")
+document.getElementById("game").classList.remove("hidden")
+
+cargar()
+
+}
+
+function cargar(){
+
+if(paso>=preguntas.length){
+
+final()
+
+return
+
+}
+
+let p=preguntas[paso]
+
+document.getElementById("pregunta").innerText=p.texto
+
+let html=""
+
+p.opciones.forEach(o=>{
+
+html+=`<button onclick="elegir(${o.valor})">${o.text}</button>`
+
+})
+
+document.getElementById("opciones").innerHTML=html
+
+document.getElementById("score").innerText=puntos
+
+document.getElementById("barra").style.width=(paso/preguntas.length*100)+"%"
+
+}
+
+function elegir(v){
+
+puntos+=v
+paso++
+
+cargar()
+
+}
+
+function final(){
+
+document.getElementById("game").classList.add("hidden")
+document.getElementById("finalJuego").classList.remove("hidden")
+
+if(puntos>0){
+
+document.getElementById("mensajeFinal").innerText=
+"🎉 Excelente. Tomaste decisiones saludables."
+
+}else{
+
+document.getElementById("mensajeFinal").innerText=
+"⚠️ Siempre puedes mejorar tus decisiones."
+
+}
+
+}
+
+function reiniciar(){
+
+location.reload()
+
+}
+
+</script>
 
 </body>
 </html>
