@@ -6,56 +6,106 @@
 
 <style>
 
+*{
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
 body{
-font-family:Arial;
-text-align:center;
 margin:0;
-background:linear-gradient(135deg,#ff5e3a,#ff9966);
+background:linear-gradient(135deg,#ff6a3d,#ff9966);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
 color:white;
 }
 
 .container{
-max-width:700px;
-margin:auto;
-padding:40px;
+width:92%;
+max-width:520px;
+text-align:center;
+}
+
+.card{
+background:white;
+color:#333;
+padding:35px;
+border-radius:25px;
+box-shadow:0 20px 50px rgba(0,0,0,0.25);
+animation:fade 0.5s;
 }
 
 h1{
-font-size:45px;
+margin-top:0;
 }
 
 button{
-padding:15px 30px;
-margin:10px;
-font-size:18px;
+background:#ff5e3a;
+color:white;
 border:none;
-border-radius:25px;
+padding:14px 24px;
+margin:8px;
+border-radius:30px;
+font-size:17px;
 cursor:pointer;
-background:white;
-color:#ff5e3a;
-font-weight:bold;
+transition:0.2s;
 }
 
 button:hover{
-transform:scale(1.1);
+transform:scale(1.08);
 }
 
 .hidden{
 display:none;
 }
 
+.progress{
+height:12px;
+background:#ddd;
+border-radius:20px;
+margin-top:20px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+background:#4CAF50;
+width:0%;
+transition:0.3s;
+}
+
 .health{
-font-size:22px;
-margin:20px;
+margin-top:10px;
+font-size:18px;
 }
 
 .score{
-font-size:20px;
+font-size:18px;
 }
 
-.motivation{
-margin-top:30px;
+.timer{
 font-size:18px;
+margin-top:10px;
+}
+
+.final{
+font-size:20px;
+margin-top:20px;
+}
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(15px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
 }
 
 </style>
@@ -66,7 +116,7 @@ font-size:18px;
 
 <div class="container">
 
-<div id="inicio">
+<div class="card" id="inicio">
 
 <h1>🍉🍋 PREV A LO NICA</h1>
 
@@ -77,44 +127,54 @@ y prevenir la adicción al alcohol.
 
 <button onclick="startGame()">Iniciar experiencia</button>
 
-<br><br>
+<br>
 
-<button onclick="sandia()">Tema Sandía</button>
-<button onclick="limon()">Tema Limón</button>
+<button onclick="sandia()">🍉 Tema Sandía</button>
+<button onclick="limon()">🍋 Tema Limón</button>
 
 </div>
 
-<div id="game" class="hidden">
+
+<div class="card hidden" id="game">
 
 <h2 id="pregunta"></h2>
 
 <div id="opciones"></div>
+
+<div class="timer">
+⏱ Tiempo: <span id="time">10</span>
+</div>
+
+<div class="progress">
+<div class="bar" id="barra"></div>
+</div>
 
 <div class="health">
 ❤️ Salud: <span id="health">3</span>
 </div>
 
 <div class="score">
-⭐ Decisiones correctas: <span id="score">0</span>
+⭐ Puntos: <span id="score">0</span>
 </div>
 
 </div>
 
-<div id="final" class="hidden">
 
-<h1>Resultado final</h1>
+<div class="card hidden" id="final">
 
-<p id="mensajeFinal"></p>
+<h2>🏆 Resultado final</h2>
 
-<div class="motivation">
+<p class="final" id="mensaje"></p>
+
+<p>
 
 ✨ Tu futuro vale más que un momento  
 <br><br>
-✨ Ser fuerte es saber decir NO  
+✨ La verdadera fuerza es saber decir NO  
 <br><br>
 ✨ Cada decisión construye tu futuro  
 
-</div>
+</p>
 
 <button onclick="reiniciar()">Jugar otra vez</button>
 
@@ -124,52 +184,67 @@ y prevenir la adicción al alcohol.
 
 <script>
 
-let salud=3
-let puntos=0
-let paso=0
-
-const preguntas=[
+let preguntas=[
 
 {
-texto:"Estás en una fiesta y alguien te ofrece alcohol",
+texto:"Estás en una fiesta y te ofrecen alcohol",
 opciones:[
-{texto:"Aceptar bebida",salud:-1,puntos:0},
-{texto:"Elegir PREV A LO NICA",salud:0,puntos:1}
+{text:"Aceptar bebida",salud:-1,puntos:0},
+{text:"Elegir PREV A LO NICA",salud:0,puntos:1}
 ]
 },
 
 {
-texto:"Tus amigos insisten en que bebas más",
+texto:"Tus amigos te presionan para beber más",
 opciones:[
-{texto:"Ceder a la presión",salud:-1,puntos:0},
-{texto:"Mantener tu decisión",salud:0,puntos:1}
+{text:"Ceder a la presión",salud:-1,puntos:0},
+{text:"Mantener tu decisión",salud:0,puntos:1}
 ]
 },
 
 {
 texto:"Debes conducir después de la fiesta",
 opciones:[
-{texto:"Conducir después de beber",salud:-1,puntos:0},
-{texto:"Buscar transporte seguro",salud:0,puntos:1}
+{text:"Conducir igual",salud:-1,puntos:0},
+{text:"Buscar transporte seguro",salud:0,puntos:1}
+]
+},
+
+{
+texto:"Te sientes tentado a beber nuevamente",
+opciones:[
+{text:"Beber otra vez",salud:-1,puntos:0},
+{text:"Elegir alternativa saludable",salud:0,puntos:1}
 ]
 }
 
 ]
+
+let paso=0
+let puntos=0
+let salud=3
+let tiempo=10
+let intervalo
 
 function startGame(){
 
 document.getElementById("inicio").classList.add("hidden")
 document.getElementById("game").classList.remove("hidden")
 
-cargarPregunta()
+cargar()
 
 }
 
-function cargarPregunta(){
+function cargar(){
+
+clearInterval(intervalo)
 
 if(paso>=preguntas.length || salud<=0){
-finalJuego()
+
+final()
+
 return
+
 }
 
 let p=preguntas[paso]
@@ -180,57 +255,89 @@ let html=""
 
 p.opciones.forEach(o=>{
 
-html+=`<button onclick="elegir(${o.salud},${o.puntos})">${o.texto}</button>`
+html+=`<button onclick="elegir(${o.salud},${o.puntos})">${o.text}</button>`
 
 })
 
 document.getElementById("opciones").innerHTML=html
 
-document.getElementById("health").innerText=salud
 document.getElementById("score").innerText=puntos
+document.getElementById("health").innerText=salud
 
-}
+document.getElementById("barra").style.width=(paso/preguntas.length*100)+"%"
 
-function elegir(cambioSalud,cambioPuntos){
+tiempo=10
 
-salud+=cambioSalud
-puntos+=cambioPuntos
+document.getElementById("time").innerText=tiempo
+
+intervalo=setInterval(()=>{
+
+tiempo--
+
+document.getElementById("time").innerText=tiempo
+
+if(tiempo==0){
+
+salud--
 
 paso++
 
-cargarPregunta()
+cargar()
 
 }
 
-function finalJuego(){
+},1000)
+
+}
+
+function elegir(s,p){
+
+clearInterval(intervalo)
+
+salud+=s
+puntos+=p
+
+paso++
+
+cargar()
+
+}
+
+function final(){
 
 document.getElementById("game").classList.add("hidden")
 document.getElementById("final").classList.remove("hidden")
 
-if(puntos>=2){
+if(puntos>=3){
 
-document.getElementById("mensajeFinal").innerText=
-"🎉 Excelente. Tomaste decisiones saludables y protegiste tu futuro."
+document.getElementById("mensaje").innerText=
+"🎉 Excelente. Demostraste control y tomaste decisiones saludables."
 
 }else{
 
-document.getElementById("mensajeFinal").innerText=
-"⚠️ Algunas decisiones pueden mejorar. Siempre puedes elegir un camino más saludable."
+document.getElementById("mensaje").innerText=
+"⚠️ Siempre puedes mejorar tus decisiones. Tu salud es lo más importante."
 
 }
 
 }
 
 function reiniciar(){
+
 location.reload()
+
 }
 
 function sandia(){
+
 document.body.style.background="linear-gradient(135deg,#ff4d4d,#ff8080)"
+
 }
 
 function limon(){
+
 document.body.style.background="linear-gradient(135deg,#3ccf7a,#8affc1)"
+
 }
 
 </script>
