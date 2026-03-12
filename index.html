@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>PREVE A LO NICA</title>
 
 <style>
 
-/* ===== FONDO TIPO LATA ===== */
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
 text-align:center;
-background-color:#ff6a3d;
+background:#ff6a3d;
+
 background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Ctext x='10' y='50' font-size='40'%3E🍉%3C/text%3E%3Ctext x='60' y='100' font-size='40'%3E🍋%3C/text%3E%3C/svg%3E");
+
 background-size:120px;
 }
 
-/* ===== CONTENEDOR ===== */
-
 .container{
-max-width:760px;
+max-width:750px;
 margin:auto;
 padding:30px;
 }
@@ -51,33 +51,17 @@ margin:10px;
 border-radius:25px;
 font-size:16px;
 cursor:pointer;
-transition:0.2s;
 }
 
 button:hover{
 transform:scale(1.05);
 }
 
-/* ===== IMAGENES ===== */
-
 .bebidas img{
-width:190px;
+width:180px;
 border-radius:15px;
 margin:10px;
 }
-
-.personaje{
-width:120px;
-margin-top:10px;
-animation:pop 0.5s;
-}
-
-@keyframes pop{
-0%{transform:scale(0)}
-100%{transform:scale(1)}
-}
-
-/* ===== JUEGO ===== */
 
 .hidden{
 display:none;
@@ -97,8 +81,6 @@ background:#4CAF50;
 width:0%;
 }
 
-/* ===== FRUTAS FLOTANDO ===== */
-
 .decor{
 position:fixed;
 font-size:36px;
@@ -112,7 +94,15 @@ animation:float 8s infinite ease-in-out;
 100%{transform:translateY(0)}
 }
 
-/* ===== CONFETI ===== */
+.personaje{
+width:120px;
+animation:pop 0.5s;
+}
+
+@keyframes pop{
+0%{transform:scale(0)}
+100%{transform:scale(1)}
+}
 
 .confetti{
 position:fixed;
@@ -140,14 +130,10 @@ animation:fall 3s linear infinite;
 
 <body>
 
-<!-- frutas flotando -->
-
 <div class="decor" style="top:10%;left:5%">🍉</div>
 <div class="decor" style="top:70%;left:10%">🍋</div>
 <div class="decor" style="top:40%;right:10%">🍉</div>
 <div class="decor" style="bottom:10%;right:5%">🍋</div>
-
-<!-- confeti -->
 
 <div id="confetti" class="confetti"></div>
 
@@ -182,19 +168,9 @@ tu familia y tu futuro.
 </p>
 
 <p>
-<strong>PREVE A LO NICA</strong> es una alternativa
-saludable para disfrutar sin alcohol.
+<strong>PREVE A LO NICA</strong> es una alternativa saludable
+para disfrutar sin alcohol.
 </p>
-
-</div>
-
-<div class="card">
-
-<h2>Motivación</h2>
-
-<p>✨ Tu futuro vale más que un momento.</p>
-<p>✨ Ser fuerte es saber decir NO.</p>
-<p>✨ Cada decisión construye tu futuro.</p>
 
 </div>
 
@@ -203,8 +179,11 @@ saludable para disfrutar sin alcohol.
 <h2>🎮 Juego interactivo</h2>
 
 <div id="inicioJuego">
+
 <p>¿Puedes tomar decisiones saludables?</p>
+
 <button onclick="startGame()">Comenzar juego</button>
+
 </div>
 
 <div id="game" class="hidden">
@@ -239,11 +218,11 @@ saludable para disfrutar sin alcohol.
 
 </div>
 
-<audio id="correcto">
+<audio id="correcto" preload="auto">
 <source src="https://assets.mixkit.co/sfx/preview/mixkit-game-success-alert-2039.mp3">
 </audio>
 
-<audio id="error">
+<audio id="error" preload="auto">
 <source src="https://assets.mixkit.co/sfx/preview/mixkit-player-losing-or-failing-2042.mp3">
 </audio>
 
@@ -254,32 +233,24 @@ let preguntas=[
 {
 texto:"Estás en una fiesta y te ofrecen alcohol",
 opciones:[
-{text:"Aceptar bebida",vida:-1,puntos:0,personaje:"sandia.jpg"},
-{text:"Elegir PREVE A LO NICA",vida:0,puntos:1,personaje:"limon.jpg"}
+{text:"Aceptar bebida",vida:-1,puntos:0,img:"sandia.jpg"},
+{text:"Elegir PREVE A LO NICA",vida:0,puntos:1,img:"limon.jpg"}
 ]
 },
 
 {
 texto:"Tus amigos te presionan para beber más",
 opciones:[
-{text:"Ceder a la presión",vida:-1,puntos:0,personaje:"sandia.jpg"},
-{text:"Mantener tu decisión",vida:0,puntos:1,personaje:"limon.jpg"}
+{text:"Ceder a la presión",vida:-1,puntos:0,img:"sandia.jpg"},
+{text:"Mantener tu decisión",vida:0,puntos:1,img:"limon.jpg"}
 ]
 },
 
 {
 texto:"Debes conducir después de la fiesta",
 opciones:[
-{text:"Conducir igual",vida:-1,puntos:0,personaje:"sandia.jpg"},
-{text:"Buscar transporte seguro",vida:0,puntos:1,personaje:"limon.jpg"}
-]
-},
-
-{
-texto:"Te sientes tentado a beber nuevamente",
-opciones:[
-{text:"Beber otra vez",vida:-1,puntos:0,personaje:"sandia.jpg"},
-{text:"Elegir alternativa saludable",vida:0,puntos:1,personaje:"limon.jpg"}
+{text:"Conducir igual",vida:-1,puntos:0,img:"sandia.jpg"},
+{text:"Buscar transporte seguro",vida:0,puntos:1,img:"limon.jpg"}
 ]
 }
 
@@ -292,9 +263,12 @@ let tiempo=10
 let timer
 
 function startGame(){
+
 document.getElementById("inicioJuego").classList.add("hidden")
 document.getElementById("game").classList.remove("hidden")
+
 cargar()
+
 }
 
 function cargar(){
@@ -302,8 +276,10 @@ function cargar(){
 clearInterval(timer)
 
 if(paso>=preguntas.length || vidas<=0){
+
 final()
 return
+
 }
 
 let p=preguntas[paso]
@@ -313,7 +289,7 @@ document.getElementById("pregunta").innerText=p.texto
 let html=""
 
 p.opciones.forEach(o=>{
-html+=`<button onclick="elegir(${o.vida},${o.puntos},'${o.personaje}')">${o.text}</button>`
+html+=`<button onclick="elegir(${o.vida},${o.puntos},'${o.img}')">${o.text}</button>`
 })
 
 document.getElementById("opciones").innerHTML=html
@@ -332,9 +308,11 @@ tiempo--
 document.getElementById("time").innerText=tiempo
 
 if(tiempo==0){
+
 vidas--
 paso++
 cargar()
+
 }
 
 },1000)
@@ -345,14 +323,12 @@ function elegir(v,p,img){
 
 clearInterval(timer)
 
+let sonido=p>0?document.getElementById("correcto"):document.getElementById("error")
+sonido.currentTime=0
+sonido.play()
+
 document.getElementById("personaje").innerHTML=
 `<img src="${img}" class="personaje">`
-
-if(p>0){
-document.getElementById("correcto").play()
-}else{
-document.getElementById("error").play()
-}
 
 vidas+=v
 puntos+=p
@@ -368,26 +344,17 @@ function final(){
 document.getElementById("game").classList.add("hidden")
 document.getElementById("finalJuego").classList.remove("hidden")
 
-if(puntos>=4){
+if(puntos>=2){
 
 document.getElementById("mensajeFinal").innerHTML=
-"🏆 MEDALLA DE ORO<br><br>Excelente. Tomaste decisiones muy saludables."
+"🏆 Excelente. Tomaste decisiones saludables."
 
 confeti()
 
-}
-
-else if(puntos>=2){
+}else{
 
 document.getElementById("mensajeFinal").innerHTML=
-"🥈 MEDALLA DE PLATA<br><br>Buenas decisiones."
-
-}
-
-else{
-
-document.getElementById("mensajeFinal").innerHTML=
-"🥉 MEDALLA DE BRONCE<br><br>Puedes mejorar tus decisiones."
+"⚠️ Puedes mejorar tus decisiones."
 
 }
 
@@ -412,7 +379,9 @@ cont.appendChild(e)
 }
 
 function reiniciar(){
+
 location.reload()
+
 }
 
 </script>
