@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>PREV A LO NICA</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#ff5e3a,#ff9966);
+color:white;
+text-align:center;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+max-width:700px;
+padding:40px;
+}
+
+h1{
+font-size:50px;
+margin-bottom:10px;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+p{
+font-size:20px;
+margin-bottom:25px;
+}
+
+button{
+padding:15px 35px;
+font-size:18px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+background:white;
+color:#ff5e3a;
+font-weight:bold;
+transition:0.3s;
+margin:10px;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+.hidden{
+display:none;
+}
+
+.score{
+font-size:22px;
+margin-top:20px;
+}
+
+.motivation{
+margin-top:30px;
+font-size:18px;
+opacity:0.9;
+}
+
+.theme-buttons{
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="start">
+
+<h1>🍉🍋 PREV A LO NICA</h1>
+
+<p>
+Una bebida creada para promover decisiones saludables
+y prevenir la adicción al alcohol.
+</p>
+
+<button onclick="startGame()">Iniciar experiencia</button>
+
+<div class="theme-buttons">
+<button onclick="watermelon()">Tema Sandía</button>
+<button onclick="lemon()">Tema Limón</button>
+</div>
+
+</div>
+
+<div id="game" class="hidden">
+
+<h2 id="question"></h2>
+
+<div id="choices"></div>
+
+<div class="score" id="score"></div>
+
+</div>
+
+<div id="final" class="hidden">
+
+<h1>Tu decisión define tu futuro</h1>
+
+<p id="finalMessage"></p>
+
+<div class="motivation">
+
+✨ Tu futuro vale más que un momento  
+<br><br>
+✨ La verdadera fuerza es decir NO  
+<br><br>
+✨ Ser libre es tomar decisiones conscientes  
+
+</div>
+
+<button onclick="restart()">Jugar otra vez</button>
+
+</div>
+
+</div>
+
+<script>
+
+let score = 0
+let step = 0
+
+const questions = [
+
+{
+q:"Estás en una fiesta y te ofrecen alcohol",
+choices:[
+{text:"Aceptar la bebida",effect:-1},
+{text:"Elegir PREV A LO NICA",effect:1}
+]
+},
+
+{
+q:"Tus amigos insisten en que bebas más",
+choices:[
+{text:"Ceder a la presión",effect:-1},
+{text:"Mantener tu decisión",effect:1}
+]
+},
+
+{
+q:"Debes conducir después de la fiesta",
+choices:[
+{text:"Conducir después de beber",effect:-1},
+{text:"Buscar transporte seguro",effect:1}
+]
+}
+
+]
+
+function startGame(){
+
+document.getElementById("start").classList.add("hidden")
+document.getElementById("game").classList.remove("hidden")
+
+loadQuestion()
+
+}
+
+function loadQuestion(){
+
+if(step >= questions.length){
+
+endGame()
+return
+
+}
+
+let q = questions[step]
+
+document.getElementById("question").innerText = q.q
+
+let choicesHTML = ""
+
+q.choices.forEach(choice=>{
+
+choicesHTML += `<button onclick="choose(${choice.effect})">${choice.text}</button>`
+
+})
+
+document.getElementById("choices").innerHTML = choicesHTML
+
+document.getElementById("score").innerText = "Puntos de decisión saludable: " + score
+
+}
+
+function choose(effect){
+
+score += effect
+
+step++
+
+loadQuestion()
+
+}
+
+function endGame(){
+
+document.getElementById("game").classList.add("hidden")
+document.getElementById("final").classList.remove("hidden")
+
+if(score >=2){
+
+document.getElementById("finalMessage").innerText =
+"¡Excelente! Demostraste control y tomaste decisiones responsables."
+
+}else{
+
+document.getElementById("finalMessage").innerText =
+"Las decisiones siempre se pueden mejorar. Cada día es una nueva oportunidad."
+
+}
+
+}
+
+function restart(){
+location.reload()
+}
+
+function watermelon(){
+
+document.body.style.background =
+"linear-gradient(135deg,#ff4d4d,#ff7a7a)"
+
+}
+
+function lemon(){
+
+document.body.style.background =
+"linear-gradient(135deg,#3ccf7a,#8affc1)"
+
+}
+
+</script>
+
+</body>
+</html>
