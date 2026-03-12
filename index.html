@@ -6,34 +6,27 @@
 
 <style>
 
-*{
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
-
 body{
 margin:0;
+font-family:'Segoe UI',sans-serif;
 background:linear-gradient(135deg,#ff6a3d,#ff9966);
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+text-align:center;
 color:white;
 }
 
 .container{
-width:92%;
-max-width:520px;
-text-align:center;
+max-width:600px;
+margin:auto;
+padding:30px;
 }
 
 .card{
 background:white;
 color:#333;
-padding:35px;
+padding:30px;
 border-radius:25px;
-box-shadow:0 20px 50px rgba(0,0,0,0.25);
-animation:fade 0.5s;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+margin-top:20px;
 }
 
 h1{
@@ -45,66 +38,34 @@ background:#ff5e3a;
 color:white;
 border:none;
 padding:14px 24px;
-margin:8px;
-border-radius:30px;
-font-size:17px;
+margin:10px;
+border-radius:25px;
+font-size:16px;
 cursor:pointer;
-transition:0.2s;
 }
 
 button:hover{
-transform:scale(1.08);
+transform:scale(1.05);
 }
 
-.hidden{
-display:none;
+.bebidas img{
+width:200px;
+border-radius:15px;
+margin:10px;
 }
 
-.progress{
-height:12px;
-background:#ddd;
-border-radius:20px;
-margin-top:20px;
-overflow:hidden;
+.decor{
+position:fixed;
+font-size:40px;
+opacity:0.15;
+animation:flotar 8s infinite ease-in-out;
 }
 
-.bar{
-height:100%;
-background:#4CAF50;
-width:0%;
-transition:0.3s;
-}
+@keyframes flotar{
 
-.health{
-margin-top:10px;
-font-size:18px;
-}
-
-.score{
-font-size:18px;
-}
-
-.timer{
-font-size:18px;
-margin-top:10px;
-}
-
-.final{
-font-size:20px;
-margin-top:20px;
-}
-
-@keyframes fade{
-
-from{
-opacity:0;
-transform:translateY(15px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
+0%{transform:translateY(0)}
+50%{transform:translateY(-20px)}
+100%{transform:translateY(0)}
 
 }
 
@@ -114,9 +75,12 @@ transform:translateY(0);
 
 <body>
 
-<div class="container">
+<div class="decor" style="top:10%;left:5%">🍉</div>
+<div class="decor" style="top:60%;left:10%">🍋</div>
+<div class="decor" style="top:40%;right:10%">🍉</div>
+<div class="decor" style="bottom:10%;right:5%">🍋</div>
 
-<div class="card" id="inicio">
+<div class="container">
 
 <h1>🍉🍋 PREVE A LO NICA</h1>
 
@@ -125,222 +89,45 @@ Una bebida creada para promover decisiones saludables
 y prevenir la adicción al alcohol.
 </p>
 
-<button onclick="startGame()">Iniciar experiencia</button>
+<div class="card bebidas">
 
-<br>
+<h2>Nuestras bebidas</h2>
 
-<button onclick="sandia()">🍉 Tema Sandía</button>
-<button onclick="limon()">🍋 Tema Limón</button>
+<img src="limon.jpg">
+<p>Sabor limón refrescante 🍋</p>
 
-</div>
-
-
-<div class="card hidden" id="game">
-
-<h2 id="pregunta"></h2>
-
-<div id="opciones"></div>
-
-<div class="timer">
-⏱ Tiempo: <span id="time">10</span>
-</div>
-
-<div class="progress">
-<div class="bar" id="barra"></div>
-</div>
-
-<div class="health">
-❤️ Salud: <span id="health">3</span>
-</div>
-
-<div class="score">
-⭐ Puntos: <span id="score">0</span>
-</div>
+<img src="sandia.jpg">
+<p>Sabor sandía natural 🍉</p>
 
 </div>
 
+<div class="card">
 
-<div class="card hidden" id="final">
-
-<h2>🏆 Resultado final</h2>
-
-<p class="final" id="mensaje"></p>
+<h2>Di NO al alcohol</h2>
 
 <p>
-
-✨ Tu futuro vale más que un momento  
-<br><br>
-✨ La verdadera fuerza es saber decir NO  
-<br><br>
-✨ Cada decisión construye tu futuro  
-
+El consumo excesivo de alcohol puede afectar tu salud,
+tus decisiones y tu futuro.
 </p>
 
-<button onclick="reiniciar()">Jugar otra vez</button>
+<p>
+<strong>PREVE A LO NICA</strong> ofrece una alternativa
+refrescante para disfrutar sin alcohol.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>Motivación</h2>
+
+<p>✨ Tu futuro vale más que un momento.</p>
+<p>✨ Ser fuerte es saber decir NO.</p>
+<p>✨ Cada decisión construye tu futuro.</p>
 
 </div>
 
 </div>
-
-<script>
-
-let preguntas=[
-
-{
-texto:"Estás en una fiesta y te ofrecen alcohol",
-opciones:[
-{text:"Aceptar bebida",salud:-1,puntos:0},
-{text:"Elegir PREV A LO NICA",salud:0,puntos:1}
-]
-},
-
-{
-texto:"Tus amigos te presionan para beber más",
-opciones:[
-{text:"Ceder a la presión",salud:-1,puntos:0},
-{text:"Mantener tu decisión",salud:0,puntos:1}
-]
-},
-
-{
-texto:"Debes conducir después de la fiesta",
-opciones:[
-{text:"Conducir igual",salud:-1,puntos:0},
-{text:"Buscar transporte seguro",salud:0,puntos:1}
-]
-},
-
-{
-texto:"Te sientes tentado a beber nuevamente",
-opciones:[
-{text:"Beber otra vez",salud:-1,puntos:0},
-{text:"Elegir alternativa saludable",salud:0,puntos:1}
-]
-}
-
-]
-
-let paso=0
-let puntos=0
-let salud=3
-let tiempo=10
-let intervalo
-
-function startGame(){
-
-document.getElementById("inicio").classList.add("hidden")
-document.getElementById("game").classList.remove("hidden")
-
-cargar()
-
-}
-
-function cargar(){
-
-clearInterval(intervalo)
-
-if(paso>=preguntas.length || salud<=0){
-
-final()
-
-return
-
-}
-
-let p=preguntas[paso]
-
-document.getElementById("pregunta").innerText=p.texto
-
-let html=""
-
-p.opciones.forEach(o=>{
-
-html+=`<button onclick="elegir(${o.salud},${o.puntos})">${o.text}</button>`
-
-})
-
-document.getElementById("opciones").innerHTML=html
-
-document.getElementById("score").innerText=puntos
-document.getElementById("health").innerText=salud
-
-document.getElementById("barra").style.width=(paso/preguntas.length*100)+"%"
-
-tiempo=10
-
-document.getElementById("time").innerText=tiempo
-
-intervalo=setInterval(()=>{
-
-tiempo--
-
-document.getElementById("time").innerText=tiempo
-
-if(tiempo==0){
-
-salud--
-
-paso++
-
-cargar()
-
-}
-
-},1000)
-
-}
-
-function elegir(s,p){
-
-clearInterval(intervalo)
-
-salud+=s
-puntos+=p
-
-paso++
-
-cargar()
-
-}
-
-function final(){
-
-document.getElementById("game").classList.add("hidden")
-document.getElementById("final").classList.remove("hidden")
-
-if(puntos>=3){
-
-document.getElementById("mensaje").innerText=
-"🎉 Excelente. Demostraste control y tomaste decisiones saludables."
-
-}else{
-
-document.getElementById("mensaje").innerText=
-"⚠️ Siempre puedes mejorar tus decisiones. Tu salud es lo más importante."
-
-}
-
-}
-
-function reiniciar(){
-
-location.reload()
-
-}
-
-function sandia(){
-
-document.body.style.background="linear-gradient(135deg,#ff4d4d,#ff8080)"
-
-}
-
-function limon(){
-
-document.body.style.background="linear-gradient(135deg,#3ccf7a,#8affc1)"
-
-}
-
-</script>
 
 </body>
 </html>
